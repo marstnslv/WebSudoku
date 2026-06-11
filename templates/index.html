@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title> Sudoku</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h1> Sudoku</h1>
+        <button onclick="window.location.href='/game'">
+            Начать игру
+        </button>
+       
+
+        {% if grid %}
+            
+        <form method="post" action="/check"> 
+       
+        <div class = "board"> 
+            {% for row in grid %}
+            {% set row_index = loop.index0 %}
+        
+                    {% for cell in row %}
+                        <input
+                            type="text"
+                            inputmode="numeric"
+                            maxlength="1"
+                            class="cell"
+                            oninput="this.value=this.value.replace(/[^1-9]/g,'')"
+                            name="cell_{{ row_index }}_{{ loop.index0 }}"
+                            {% if cell != 0 %}
+                                value="{{cell}}"
+                                readonly
+                            {% endif %}>
+                     {% endfor %}
+            
+             {% endfor %}
+        </div>
+
+        <br><br>
+        <div>
+            <button type="submit">
+                Проверить решение
+            </button>
+        </div>
+         </form>
+        {% endif %}
+    </body>
+</html>
